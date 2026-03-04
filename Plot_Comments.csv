@@ -1,0 +1,78 @@
+Plot_Title,Comment
+Distribution of Win Percentage,"The distribution of win percentages looks fairly normal shaped; median is centered around 0.5. No skews, no outliers, no imbalances."
+Total Offensive Points vs. Win Percentage with Regression Line,"This is not a surprise, as the more points a team scored, the better their win percentage will be. From an eyeball perspective, getting ~375 points in a season would yield a win percentage of 0.5, but of course that won’t be good enough for a team to be competitive in the playoffs."
+Win Percentage Distribution Across Seasons,"Looking at each season, the median win percentage is about 0.5, some have been higher and some have been lower. It shows that it’s not always the same every season as some teams have been more dominant while other teams have been near the bottom. There has been a little more variability in the recent years compared to the first few years."
+Pair Plot of Key Offensive/Defensive Metrics and Win Percentage,"Looking at the top few metrics, they all have a positive correlation with one another, and win percentage. When plotted against itself, all of them also appear to be normally distributed as well.
+
+Given that the dataset doesn’t have yards allowed by defense, or points allowed by defense, I think those two metrics would have been nice to have in the dataset. But that’s due to the limitations of the Kaggle dataset."
+Average Win Percentage: Top 5 vs. Bottom 5 Teams,"Looking at the top five and bottom five teams, their win percentages are almost mirrors of one another across the 0.5 line. Following the NFL, those top teams are known to have strong management, while the bottom teams are known to not have the best management in acquiring talented players or coaches."
+Average Total Offensive Points by Season,"Since offensive points is a main driver for a team’s success, looking at each season, there’s an upward trend of points scored as the years progressed. The NFL added a 17th game starting in the 2021 season, which can attribute to the increase. 2020 was a Covid season, which teams played without crowds, so offenses can communicate with one another during huddles. The W-L columns was removed from the merged dataset given it was redundant to the win percentage, but one could have noticed that looking at it closely."
+Correlation Matrix of Key Features and Win Percentage,"It’s easy to see that the offensive statistics correlate with other offensive statistics. Not a surprise that the better the offensive output such as total offensive points, total TDs, TD percentage, receiving TD percentage, receiving touchdown, total offensive yards all correlate strongly with one another. There’s only one defensive stat that was a strong overall predictor of win percentage, which doesn’t have any correlation with the offensive stats. If there were more robust defensive stats in the dataset, then it would be noticeably visible that defensive stats correlate with one another."
+Linear Regression: Predicted vs Actual Win Percentage,"They all performed similarly to the baseline model, but the Lasso regression model shows a marginal improvement for each metric.
+
+--- Linear Regression Baseline Model ---
+Mean Absolute Error (MAE): 0.0847
+Root Mean Squared Error (RMSE): 0.1029
+R-squared (R²): 0.6581
+
+--- Tuned Lasso Regression ---
+Best Alpha: 0.0001
+Mean Absolute Error (MAE): 0.0843
+Root Mean Squared Error (RMSE): 0.1027
+R-squared (R²): 0.6595
+
+--- Tuned Ridge Regression ---
+Best Alpha: 0.0001
+Mean Absolute Error (MAE): 0.0846
+Root Mean Squared Error (RMSE): 0.1029
+R-squared (R²): 0.6583
+
+--- Tuned Elastic-Net Regression ---
+Best Alpha: 0.0001
+Best L1 Ratio: 0.10
+Mean Absolute Error (MAE): 0.0844
+Root Mean Squared Error (RMSE): 0.1029
+R-squared (R²): 0.6583"
+"Best Decision Tree Regressor (Max Depth: 3, Min Samples Leaf: 5)","Fitting 5 folds for each of 20 candidates, totaling 100 fits
+--- Tuned Decision Tree Regressor ---
+Best Hyperparameters: {'max_depth': 3, 'min_samples_leaf': 5}
+Mean Absolute Error (MAE): 0.1004
+Root Mean Squared Error (RMSE): 0.1239
+R-squared (R²): 0.5039"
+Random Forest Regressor: Predicted vs Actual Win Percentage,"Fitting 5 folds for each of 12 candidates, totalling 60 fits
+--- Tuned Random Forest Regressor ---
+Best Hyperparameters: {'max_depth': 3, 'n_estimators': 200}
+Mean Absolute Error (MAE): 0.0924
+Root Mean Squared Error (RMSE): 0.1132
+R-squared (R²): 0.5858"
+LightGBM Regressor: Predicted vs. Actual Win Percentage,"Fitting 5 folds for each of 36 candidates, totalling 180 fits
+--- Tuned LightGBM Regressor ---
+Best Hyperparameters: {'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 50}
+Mean Absolute Error (MAE): 0.0935
+Root Mean Squared Error (RMSE): 0.1147
+R-squared (R²): 0.5752"
+Comparison of Model RMSE on Test Set,"Among all the models tested, the Tuned Lasso Regression performed the best, achieving the lowest Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE), and the highest R-squared (R²) value. It was closely followed by the other linear models (Linear Regression, Tuned Ridge Regression, and Tuned Elastic-Net Regression). The ensemble methods (Random Forest and LightGBM) showed improved performance over the single Decision Tree but did not surpass the linear models. The Multi-Layer Perceptron (MLP), despite significant improvement after feature scaling, still lagged behind the other models.
+
+I was actually not surprised by the simpler linear models outperforming the more complex models on this dataset. Usually, gradient-boosting machines like LightGBM or more extensively tuned neural networks are expected to achieve better results. This suggests that the relationship between the strongly correlated metrics and NFL win percentage is predominantly linear. The additional complexity of the other models either didn't find much more signal or overfit slightly. Although it was expected given that the Pearson correlation coefficient was used to narrow the dataset down to several columns with a coefficient above 0.5 when compared to the win percentage.
+
+Several trade-offs exist between these models:
+•	Accuracy vs. Interpretability: Linear models (Linear Regression, Lasso, Ridge, Elastic-Net) offer excellent interpretability, as the coefficients directly show the impact of each feature on the target. Lasso further aids interpretability through feature selection. In contrast, ensemble methods (Random Forest, LightGBM) and particularly the MLP are often considered ""black boxes,"" providing high accuracy but limited insight into how they arrive at their predictions.
+•	Training Time & Complexity: Linear models are generally very fast to train due to their simpler mathematical foundations. Tree-based ensembles require more training time as they build multiple trees, though LightGBM is optimized for speed. Neural networks (MLPs) can be computationally intensive, requiring more epochs and potentially specialized hardware, and are also sensitive to data scaling.
+•	Overfitting Risk: Regularized linear models (Lasso, Ridge, Elastic-Net) explicitly tackle overfitting by penalizing large coefficients. Ensemble methods are inherently robust to overfitting due to their averaging and boosting techniques. A single Decision Tree is prone to overfitting if not carefully constrained (e.g., max_depth). MLPs can also overfit if too complex or not properly regularized."
+Neural Network: Predicted vs Actual Win Percentage,"The initial run yielded poor results.
+
+Mean Absolute Error (MAE): 0.5685
+Root Mean Squared Error (RMSE): 0.7101
+R-squared (R²): -15.2868
+
+It was recommended to scale the input so the MLP model performance would improve, which it did, however it still isn’t as strong as the Lasso regression model. The results may vary depending on parameter and platform.
+
+--- Evaluating MLP Model on Test Set ---
+Mean Absolute Error (MAE): 0.1082
+Root Mean Squared Error (RMSE): 0.1302
+R-squared (R²): 0.4527"
+SHAP Analysis,"Based on the Feature Importance SHAP analysis bar graph, the total offensive points (total_off_points) and pass percentage defense (pass_pct_defense) were the two strongest metrics. Having football knowledge, points are what determines which team wins a game, and the pass percentage is usually higher if a team is behind, so they need to drive the ball down the field rather than running it.
+
+Based on the SHAP Summary Beeswarm Plot, we see the same, the top two were total offensive points and pass percentage defense. While the remainder of the metrics don’t have as strong of an influence compared to those two metrics, which coincided with the results seen on the bar graph.
+
+These insights are useful for anyone who is interested in watching or analyzing the NFL. As fans enjoy watching their favorite or hometown team play and win. Also, it can be used to wage bets on the sport itself, where it’s legal to do so. Teams can also use the data to determine which players to draft or build around if they want to build a team that’s a playoff or Super Bowl contender. However, the drawback is the lack of robust defensive statistics in the dataset."

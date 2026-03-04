@@ -1,0 +1,23 @@
+Executive Summary: Predicting NFL Success
+
+The Dataset & Prediction Goal
+
+This analysis utilizes a comprehensive dataset of NFL team performance spanning from 2012 through 2024. To ensure the model remains consistent in standard team performance, we focused on 416 regular-season observations, and excluded post-season anomalies.
+
+Our primary goal is to predict a team’s winning percentage, the metric of success in professional football. There’s initially over 140 variables in the dataset, and it was narrowed to eight strongly correlated predictors.
+
+Why This Matters: The "So What"
+
+Football isn't just a game; it’s a cultural and economic powerhouse. With over 100 million people tuning in to the Super Bowl annually, the ability to quantify success has massive implications:
+•	Fan Engagement: Data-driven predictions fuel the conversations that keep fans invested from Week 1 to the playoffs.
+•	Strategic Team Building: Front offices can use these insights to decide which players to draft or which schemes to prioritize to become true Super Bowl contenders.
+•	The Betting Economy: In an era of legalized sports wagering, understanding the hidden signals behind a win percentage is invaluable for market analysis.
+
+Our Approach & Key Findings
+
+A variety of predictive methods were tested, ranging from simple regressions to complex machine learning algorithms. Interestingly, the simpler linear models outperformed the complex ones. Sometimes analysis doesn’t need an over-engineered solution, the simple model works just as great or even better.
+Key Drivers of Victory: Through SHAP analysis (a method used to explain model transparency), we identified two dominant factors that dictate a season's outcome:
+1.	Total Offensive Points: Unsurprisingly, the ability to put points on the board remains the single greatest predictor of a high win percentage.
+2.	Pass Percentage Defense: Our model revealed that defensive efficiency against the pass is critical. Teams that force opponents into high-volume, desperate passing situations, often because those opponents are trailing, consistently see more wins.
+
+While the dataset could benefit from deeper defensive metrics, the current model clearly demonstrates that efficient scoring paired with a shutdown passing defense is the most statistically sound blueprint for NFL success.
