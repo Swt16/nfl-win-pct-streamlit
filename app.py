@@ -1,4 +1,4 @@
-﻿import html
+import html
 import json
 import re
 from pathlib import Path
@@ -306,7 +306,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     ax.set_title("Distribution of Win Percentage")
     ax.set_xlabel("Win Percentage")
     ax.set_ylabel("Frequency")
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Distribution of Win Percentage", REPORT_COMMENTS["target_distribution"])
 
@@ -315,7 +315,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     ax.set_title("Total Offensive Points vs Win Percentage")
     ax.set_xlabel("Total Offensive Points")
     ax.set_ylabel("Win Percentage")
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Total Offensive Points vs. Win Percentage with Regression Line", REPORT_COMMENTS["points_vs_win"])
 
@@ -325,7 +325,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     ax.set_xlabel("Season")
     ax.set_ylabel("Win Percentage")
     ax.tick_params(axis="x", rotation=45)
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Win Percentage Distribution Across Seasons", REPORT_COMMENTS["season_box"])
 
@@ -340,7 +340,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     ax.set_xlabel("Team")
     ax.set_ylabel("Average Win Percentage")
     ax.tick_params(axis="x", rotation=45)
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Average Win Percentage: Top 5 vs. Bottom 5 Teams", REPORT_COMMENTS["top_bottom_teams"])
 
@@ -359,7 +359,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     ax.set_xlabel("Season")
     ax.set_ylabel("Average Total Offensive Points")
     ax.tick_params(axis="x", rotation=45)
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Average Total Offensive Points by Season", REPORT_COMMENTS["points_by_season"])
 
@@ -368,7 +368,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     fig, ax = plt.subplots(figsize=FIGSIZE)
     sns.heatmap(corr, cmap="coolwarm", annot=True, fmt=".2f", linewidths=0.5, ax=ax)
     ax.set_title("Correlation Matrix of Key Features and Win Percentage")
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Correlation Matrix of Key Features and Win Percentage", REPORT_COMMENTS["corr_heatmap"])
 
@@ -376,7 +376,7 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     if len(pair_cols) >= 3:
         st.markdown("**Pair Plot (Key Features)**")
         pair_fig = sns.pairplot(modeling_df[pair_cols], height=1.5)
-        st.pyplot(pair_fig.fig, use_container_width=False)
+        st.pyplot(pair_fig.fig)
         plt.close(pair_fig.fig)
         show_comment(plot_comments, "Pair Plot of Key Offensive/Defensive Metrics and Win Percentage", REPORT_COMMENTS["pairplot"])
 
@@ -400,7 +400,7 @@ def render_model_performance(metrics: pd.DataFrame, modeling_df: pd.DataFrame, m
     ax.set_xlabel("Model")
     ax.set_ylabel("Error")
     ax.tick_params(axis="x", rotation=25)
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
 
     fig, ax = plt.subplots(figsize=FIGSIZE)
@@ -409,7 +409,7 @@ def render_model_performance(metrics: pd.DataFrame, modeling_df: pd.DataFrame, m
     ax.set_title("Comparison of Model RMSE on Test Set")
     ax.set_xlabel("RMSE")
     ax.set_ylabel("Model")
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig)
     plt.close(fig)
     show_comment(plot_comments, "Comparison of Model RMSE on Test Set", REPORT_COMMENTS["rmse_bar"])
 
@@ -453,7 +453,7 @@ def render_model_performance(metrics: pd.DataFrame, modeling_df: pd.DataFrame, m
             ax.set_title(f"{title_name}: Predicted vs Actual Win Percentage")
             ax.set_xlabel("Actual Win Percentage")
             ax.set_ylabel("Predicted Win Percentage")
-            st.pyplot(fig, use_container_width=False)
+            st.pyplot(fig)
             plt.close(fig)
             title_map = {
                 "Random Forest": "Random Forest Regressor: Predicted vs Actual Win Percentage",
@@ -484,7 +484,7 @@ def render_model_performance(metrics: pd.DataFrame, modeling_df: pd.DataFrame, m
                 ax=ax,
             )
             ax.set_title("Decision Tree Visualization (Depth Capped at 3)")
-            st.pyplot(fig, use_container_width=False)
+            st.pyplot(fig)
             plt.close(fig)
             show_comment(plot_comments, "Best Decision Tree Regressor (Max Depth: 3, Min Samples Leaf: 5)", REPORT_COMMENTS["tree_plot"])
 
@@ -590,7 +590,7 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
                 ax.set_xlabel("Epoch")
                 ax.set_ylabel("MSE Loss")
                 ax.legend()
-                st.pyplot(fig, use_container_width=False)
+                st.pyplot(fig)
                 plt.close(fig)
 
                 fig, ax = plt.subplots(figsize=FIGSIZE)
@@ -600,7 +600,7 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
                 ax.set_xlabel("Epoch")
                 ax.set_ylabel("MAE")
                 ax.legend()
-                st.pyplot(fig, use_container_width=False)
+                st.pyplot(fig)
                 plt.close(fig)
 
     st.markdown("**SHAP Waterfall for Custom Input**")
@@ -614,7 +614,7 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
         plt.figure(figsize=(8, 4.5))
         shap.plots.waterfall(exp[0], show=False)
         fig = plt.gcf()
-        st.pyplot(fig, use_container_width=False)
+        st.pyplot(fig)
         plt.close(fig)
         st.caption(REPORT_COMMENTS["shap_waterfall"])
     except Exception as exc:
@@ -640,7 +640,7 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
         ax.set_title(f"SHAP Bar Plot ({f.stem.replace('shap_importance_', '')})")
         ax.set_xlabel("Mean Absolute SHAP")
         ax.set_ylabel("Feature")
-        st.pyplot(fig, use_container_width=False)
+        st.pyplot(fig)
         plt.close(fig)
         st.caption(REPORT_COMMENTS["shap_bar"])
 
