@@ -74,7 +74,6 @@ REPORT_COMMENTS = {
 }
 
 st.set_page_config(page_title="NFL Win% Dashboard", layout="wide")
-st.set_option("global.dataFrameSerialization", "legacy")
 
 
 def read_text_with_fallback(path: Path) -> str:
