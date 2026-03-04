@@ -74,6 +74,7 @@ REPORT_COMMENTS = {
 }
 
 st.set_page_config(page_title="NFL Win% Dashboard", layout="wide")
+st.set_option("global.dataFrameSerialization", "legacy")
 
 
 def read_text_with_fallback(path: Path) -> str:
@@ -235,14 +236,14 @@ def train_custom_keras_mlp(
 
 
 @st.cache_resource
-def build_explainer(model_name: str, _model_obj, X_background: pd.DataFrame):
+def build_explainer(model_name: str, _model_obj, _X_background: pd.DataFrame):
     import shap
 
     if isinstance(_model_obj, dict):
-        pred_fn = lambda data: _model_obj["model"].predict(_model_obj["scaler"].transform(pd.DataFrame(data, columns=X_background.columns)))
-        return shap.Explainer(pred_fn, X_background)
+        pred_fn = lambda data: _model_obj["model"].predict(_model_obj["scaler"].transform(pd.DataFrame(data, columns=_X_background.columns)))
+        return shap.Explainer(pred_fn, _X_background)
 
-    return shap.Explainer(_model_obj, X_background)
+    return shap.Explainer(_model_obj, _X_background)
 
 
 def render_executive_summary(metrics: pd.DataFrame, meta: dict, summary_text: str):
