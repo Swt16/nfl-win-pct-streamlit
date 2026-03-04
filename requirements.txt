@@ -10,3 +10,4 @@ seaborn
 shap==0.46.0
 xgboost
 lightgbm
+tensorflow-cpu==2.20.0
