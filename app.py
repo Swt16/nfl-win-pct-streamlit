@@ -19,7 +19,7 @@ from nfl_dashboard_pipeline import load_and_merge_data, train_and_evaluate
 ART = Path("artifacts")
 MODELS = ART / "models"
 FIGSIZE = (6, 3.4)
-ENABLE_CUSTOM_MLP_TRAINER = False
+ENABLE_CUSTOM_MLP_TRAINER = True
 REPORT_COMMENTS = {
     "target_distribution": (
         "The distribution of win percentages looks fairly normal shaped; median is centered "
@@ -530,7 +530,7 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
     prediction = float(model_predictions_for_plot(selected_model, custom_input)[0])
     st.metric("Predicted Win%", f"{prediction:.4f}")
 
-    if model_name == "Neural Network":
+    if model_name == "Neural Network" and not ENABLE_CUSTOM_MLP_TRAINER:
         st.markdown("**Neural Network Parameters (Pretrained Model)**")
         p1, p2, p3 = st.columns(3)
         p1.text_input("Hidden Layer 1 Units", value="128", disabled=True)
