@@ -3,6 +3,7 @@ numpy
 scikit-learn==1.7.0
 streamlit
 altair<5
+pyarrow==15.0.2
 joblib
 matplotlib
 seaborn
