@@ -347,10 +347,10 @@ def render_descriptive_analytics(modeling_df: pd.DataFrame, plot_comments: dict)
     table_c1, table_c2 = st.columns(2)
     with table_c1:
         st.markdown("**Top 5 Teams by Average Win%**")
-        st.dataframe(top_5_teams.reset_index(name="avg_win_pct"), use_container_width=True)
+        st.dataframe(top_5_teams.reset_index(name="avg_win_pct"), width="stretch")
     with table_c2:
         st.markdown("**Bottom 5 Teams by Average Win%**")
-        st.dataframe(bottom_5_teams.reset_index(name="avg_win_pct"), use_container_width=True)
+        st.dataframe(bottom_5_teams.reset_index(name="avg_win_pct"), width="stretch")
 
     avg_off_points_by_season = modeling_df.groupby("season")["total_off_points"].mean().reset_index()
     fig, ax = plt.subplots(figsize=FIGSIZE)
@@ -385,7 +385,7 @@ def render_model_performance(metrics: pd.DataFrame, modeling_df: pd.DataFrame, m
     st.subheader("Model Performance")
 
     st.markdown("**Model Comparison Table**")
-    st.dataframe(metrics, use_container_width=True)
+    st.dataframe(metrics, width="stretch")
     st.caption(REPORT_COMMENTS["model_table"])
 
     rmse_mae_long = metrics.melt(
@@ -415,7 +415,7 @@ def render_model_performance(metrics: pd.DataFrame, modeling_df: pd.DataFrame, m
 
     st.markdown("**Best Hyperparameters by Model**")
     hyper_table = metrics[["model", "best_params"]].copy()
-    st.dataframe(hyper_table, use_container_width=True)
+    st.dataframe(hyper_table, width="stretch")
 
     features = meta.get("selected_features", [])
     if not features:
@@ -530,6 +530,20 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
     prediction = float(model_predictions_for_plot(selected_model, custom_input)[0])
     st.metric("Predicted Win%", f"{prediction:.4f}")
 
+    if model_name == "Neural Network":
+        st.markdown("**Neural Network Parameters (Pretrained Model)**")
+        p1, p2, p3 = st.columns(3)
+        p1.text_input("Hidden Layer 1 Units", value="128", disabled=True)
+        p2.text_input("Hidden Layer 2 Units", value="128", disabled=True)
+        p3.text_input("Activation", value="ReLU", disabled=True)
+        q1, q2, q3 = st.columns(3)
+        q1.text_input("Output Layer", value="Linear (Regression)", disabled=True)
+        q2.text_input("Loss", value="MSE", disabled=True)
+        q3.text_input("Optimizer", value="Adam", disabled=True)
+        st.caption(
+            "Submission mode uses pretrained artifacts only. Live retraining controls are disabled."
+        )
+
     if ENABLE_CUSTOM_MLP_TRAINER:
         st.markdown("**Custom MLP (Keras) Trainer**")
         tf_available = True
@@ -632,7 +646,7 @@ def render_explainability_and_interactive(metrics: pd.DataFrame, modeling_df: pd
     for f in files:
         st.markdown(f"**{f.name}**")
         sdf = pd.read_csv(f)
-        st.dataframe(sdf.head(20), use_container_width=True)
+        st.dataframe(sdf.head(20), width="stretch")
 
         fig, ax = plt.subplots(figsize=FIGSIZE)
         top_bar = sdf.head(15).sort_values("mean_abs_shap", ascending=True)
